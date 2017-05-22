@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>main.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page_wrapper">
+            <div id="jump_page">
+              
+                
+                <a class="source" href="annodom.html">
+                  annodom.js
+                </a>
+              
+                
+                <a class="source" href="main.html">
+                  main.js
+                </a>
+              
+            </div>
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>main.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              <p>This is the main entrypoint for <code>AnnoDom</code>.
+It will setup several things, like the checkboxes for every annotation layer.
+It will also call <code>AnnoDom</code> so that it can do it’s magic.
+For a complete and self containing example see the <a href="example.html">example.html</a>!
+For the documentation of the core algorithm see <a href="annodom.html">annodom.html</a>.</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Provide the global configurations for Require.js.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-built_in">require</span>.config({
+  <span class="hljs-attr">paths</span>: {
+    <span class="hljs-string">"jquery"</span>: <span class="hljs-string">"../../lib/jquery/jquery.min"</span>,
+    <span class="hljs-string">"bootstrap"</span>: <span class="hljs-string">"../../bower_components/bootstrap/dist/js/bootstrap.min"</span>
+  },
+  <span class="hljs-attr">shim</span>: {
+    <span class="hljs-string">"bootstrap"</span>: {
+      <span class="hljs-attr">deps</span>: [<span class="hljs-string">"jquery"</span>],
+      <span class="hljs-attr">exports</span>: <span class="hljs-string">"bootstrap"</span>
+    }
+  }
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>Make <code>jquery</code> and <code>annodom</code> available for the main function.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-built_in">require</span>([<span class="hljs-string">"jquery"</span>, <span class="hljs-string">"annodom"</span>, <span class="hljs-string">"bootstrap"</span>], <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">$, annotate, bs</span>) </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Colors based on Fraunhofer CD-Manual’s Color Number.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> colors = [
+    <span class="hljs-string">"rgba(109,191,169,0.5)"</span>,  <span class="hljs-comment">// 27</span>
+    <span class="hljs-string">"rgba(144,133,186,0.5)"</span>,  <span class="hljs-comment">// 7</span>
+    <span class="hljs-string">"rgba(209,221,130,0.5)"</span>,  <span class="hljs-comment">// 22</span>
+    <span class="hljs-string">"rgba(136,188,226,0.5)"</span>,  <span class="hljs-comment">// 2</span>
+    <span class="hljs-string">"rgba(251,203,140,0.5)"</span>,  <span class="hljs-comment">// 14</span>
+    <span class="hljs-string">"rgba(203,175,115,0.5)"</span>,  <span class="hljs-comment">// 30</span>
+    <span class="hljs-string">"rgba( 37,186,226,0.5)"</span>,  <span class="hljs-comment">// 34</span>
+    <span class="hljs-string">"rgba(255,243,129,0.5)"</span>   <span class="hljs-comment">// 18</span>
+  ].reverse();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>This helper function transforms DOM identifier to a format <code>jquery</code> or <code>querySelector</code> can understand.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> mkValidCssId = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">id</span>) </span>{
+    <span class="hljs-keyword">return</span> id.replace(<span class="hljs-regexp">/\//g</span>, <span class="hljs-string">"\\/"</span>).replace(<span class="hljs-regexp">/:/g</span>, <span class="hljs-string">"\\:"</span>).replace(<span class="hljs-regexp">/\u0040/g</span>, <span class="hljs-string">"\\\u0040"</span>).replace(<span class="hljs-regexp">/\./g</span>, <span class="hljs-string">"\\."</span>).replace(<span class="hljs-regexp">/-/g</span>, <span class="hljs-string">"\\-"</span>);
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Create all annotations for a chosen layer with a color.
+Note: Currently the annotation data is retrieved from <em>AnnoDom’s global namespace</em>!</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> annotateLayer = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">layerId, color</span>) </span>{
+
+    <span class="hljs-keyword">if</span> (layerId.startsWith(<span class="hljs-string">"belief"</span>)) {
+      <span class="hljs-built_in">console</span>.debug(<span class="hljs-string">"Annotation layer context is belief"</span>, annodom.annotations[layerId]);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>TODO: show here BEL documents as marginal notes.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (layerId.startsWith(<span class="hljs-string">"header"</span>)) {
+      <span class="hljs-built_in">console</span>.debug(<span class="hljs-string">"Annotation layer context is header"</span>, annodom.annotations[layerId]);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>TODO: show here a table of contents in a side bar.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-built_in">console</span>.debug(<span class="hljs-string">"Annotation layer context is text-offset-based"</span>);
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> key <span class="hljs-keyword">in</span> annodom.annotations[layerId]) {
+        <span class="hljs-keyword">var</span> annots = annodom.annotations[layerId][key];
+        <span class="hljs-keyword">var</span> id = <span class="hljs-string">"#"</span> + mkValidCssId(key);
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> aIdx <span class="hljs-keyword">in</span> annots) {
+          <span class="hljs-keyword">var</span> annot = annots[aIdx];
+          <span class="hljs-keyword">var</span> cls = <span class="hljs-string">"."</span> + mkValidCssId(annot.attr);
+          annotate(annot, $(id), $(id + <span class="hljs-string">" "</span> + cls), color, layerId);
+        }
+      }
+    }
+
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>When the document has finished with rendering, setup the checkboxes for selection of the annotation layer.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  $(<span class="hljs-built_in">document</span>).ready(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Welcome to AnnoDom - a DOM annotation JS lib."</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>Retrieve from <em>AnnoDom’s global namespace</em> the available annotation layers.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> layerList = <span class="hljs-built_in">Object</span>.keys(annodom.layers);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>Create checkboxes for every annotation layer.
+The layer checkboxes will be appended to the <code>#annotation-layer-checkboxes</code> node.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> idx <span class="hljs-keyword">in</span> layerList) {
+      <span class="hljs-keyword">var</span> layer = layerList[idx];
+      <span class="hljs-keyword">var</span> layerShortName = layer;
+      <span class="hljs-keyword">if</span> (layer.length &gt; <span class="hljs-number">24</span>) {
+        layerShortName = <span class="hljs-string">"~"</span> + layer.substr(layer.length - <span class="hljs-number">24</span>);
+      }
+      <span class="hljs-keyword">var</span> template = <span class="hljs-string">'&lt;label class="checkbox-inline" title="'</span> + layer + <span class="hljs-string">'"&gt;'</span> +
+        <span class="hljs-string">'&lt;input type="checkbox" class="annotation-layer-checkbox" value="'</span> + layer + <span class="hljs-string">'"&gt;'</span> +
+        layerShortName + <span class="hljs-string">'&lt;/label&gt;'</span>;
+      $(<span class="hljs-string">"#annotation-layer-checkboxes"</span>).append(template);
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>Setup the checkbox events for the annotation layers.
+The <code>onchange</code> event is set on every <code>.annotation-layer-checkbox</code> checkbox-node.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $(<span class="hljs-string">"input:checkbox.annotation-layer-checkbox"</span>).change(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">var</span> layerId = $(<span class="hljs-keyword">this</span>).val();
+      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.checked) {
+        <span class="hljs-built_in">console</span>.debug(<span class="hljs-string">"Enable annotation layer "</span> + layerId);
+        <span class="hljs-keyword">var</span> color = colors.pop();
+        $(<span class="hljs-keyword">this</span>).parent().css(<span class="hljs-string">"background-color"</span>, color);
+        annotateLayer(layerId, color);
+        $(<span class="hljs-string">'[data-toggle="popover"]'</span>).popover();
+      } <span class="hljs-keyword">else</span> {
+        <span class="hljs-built_in">console</span>.debug(<span class="hljs-string">"Disable annotation layer "</span> + layerId);
+        <span class="hljs-keyword">var</span> color = $(<span class="hljs-keyword">this</span>).parent().css(<span class="hljs-string">"background-color"</span>);
+        <span class="hljs-keyword">if</span> (color) colors.push(color);
+        $(<span class="hljs-keyword">this</span>).parent().css(<span class="hljs-string">"background-color"</span>, <span class="hljs-string">""</span>);
+        $(<span class="hljs-string">".annotation-layer-"</span> + mkValidCssId(layerId)).remove();
+      }
+    });
+
+
+  });
+
+});</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

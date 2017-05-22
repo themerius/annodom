@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>annodom.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page_wrapper">
+            <div id="jump_page">
+              
+                
+                <a class="source" href="annodom.html">
+                  annodom.js
+                </a>
+              
+                
+                <a class="source" href="main.html">
+                  main.js
+                </a>
+              
+            </div>
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>annodom.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              <p>With this library you can create colored hovering text annotations on text.
+It is offset based, so it is ideal for representing text mining results.</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Each annotation is a simple <code>&lt;div&gt;</code> which is placed into a container node.
+You give offsets to the algorithm and the browser will calculate the graphical positions with it’s <a href="https://en.wikipedia.org/wiki/Document_Object_Model"><code>DOM</code> model</a>.</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>This libary uses <code>jquery</code>, so import it as variable <code>$</code>.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>define([<span class="hljs-string">"jquery"</span>], <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">$</span>) </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Example inputs are:</p>
+<pre><code>textPos = {
+   <span class="hljs-string">"begin"</span>: <span class="hljs-number">6</span>,
+   <span class="hljs-string">"end"</span>: <span class="hljs-number">10</span>,
+   <span class="hljs-string">"attr"</span>: <span class="hljs-string">"sentence"</span>,
+   <span class="hljs-string">"ref"</span>: <span class="hljs-string">"concept/ipsum"</span>
+}
+containerNode = $(<span class="hljs-string">"#s1"</span>)
+textNode = $(<span class="hljs-string">"#s1 .sentence"</span>)
+color = <span class="hljs-string">"rgba(109,191,169,0.5)"</span>
+layer = <span class="hljs-string">"layer-l1"</span>
+</code></pre><p>Example HTML markup:</p>
+<pre><code>&lt;span id=<span class="hljs-string">"s1"</span>&gt;
+  <span class="xml"><span class="hljs-comment">&lt;!-- The annotation &lt;div&gt;'s will be placed here --&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"sentence"</span>&gt;</span>Lorem ipsum dolor<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span></span>
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">annotate</span>(<span class="hljs-params">textPos, containerNode, textNode, color, layer</span>) </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Collect the annotation position informations here.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> annotationInfos = [];
+      <span class="hljs-keyword">var</span> info = iannotate(textPos, containerNode, textNode, color, layer);
+      <span class="hljs-keyword">if</span> (info) {
+        annotationInfos.push(info);
+      }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Inner recursive function which does the actual work.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">iannotate</span>(<span class="hljs-params">textPos, containerNode, textNode, color, layer</span>) </span>{
+        <span class="hljs-keyword">var</span> begin = textPos.begin;
+        <span class="hljs-keyword">var</span> end = textPos.end;
+        <span class="hljs-keyword">var</span> delta = textPos.end - textPos.begin;
+
+        <span class="hljs-keyword">var</span> textNode = $(textNode).get(<span class="hljs-number">0</span>); <span class="hljs-comment">// get raw dom element from jquery</span>
+        <span class="hljs-keyword">var</span> innerTextNode = textNode.firstChild;
+        <span class="hljs-keyword">var</span> innerTextNodeCopy = innerTextNode.textContent;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Splitting the text with <a href="https://developer.mozilla.org/en-US/docs/Web/API/Text.splitText">Text.splitText API</a> into head, middle and tail nodes.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">var</span> headNode = <span class="hljs-literal">undefined</span>
+        <span class="hljs-keyword">if</span> (begin &gt; innerTextNode.textContent.length) {
+          <span class="hljs-built_in">console</span>.error(<span class="hljs-string">"Offset Error (@head)!"</span>, textPos, textNode);
+          <span class="hljs-keyword">return</span> {};
+        } <span class="hljs-keyword">else</span> {
+          headNode = innerTextNode.splitText(begin);
+        }
+        <span class="hljs-keyword">var</span> middleNode = innerTextNode.nextSibling;
+        <span class="hljs-keyword">var</span> tailNode = <span class="hljs-literal">undefined</span>;
+        <span class="hljs-keyword">if</span> (delta &gt; middleNode.textContent.length) {
+          <span class="hljs-built_in">console</span>.error(<span class="hljs-string">"Offset Error (@tail)!"</span>, textPos, textNode);
+          tailNode = middleNode.splitText(middleNode.textContent.length);
+          color = <span class="hljs-string">"red"</span>;
+        } <span class="hljs-keyword">else</span> {
+          tailNode = middleNode.splitText(delta);
+        }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>Create a temporary node, with a copy of the text of the middle node.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">var</span> tmp = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">"span"</span>);
+        tmp.appendChild(<span class="hljs-built_in">document</span>.createTextNode(middleNode.textContent));</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>Place the temporary node at the position of the middle node.
+Why this? Because the browser hasn’t calculated any graphical postions for middle node yet. With this temporary node we force the browser to re-render and generate the graphical informations for the temporary node. Maybe there are far better solutions…</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">var</span> replacedNode = textNode.replaceChild(tmp, middleNode);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>Retrieve the graphical position, line height and surrounding box of the temporary (middle) node.
+These informations where calculated by the browsers render engine.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">var</span> position = $(tmp).position();
+        <span class="hljs-keyword">var</span> lineheight = <span class="hljs-built_in">parseFloat</span>( $(textNode).css(<span class="hljs-string">"line-height"</span>) );
+        <span class="hljs-keyword">var</span> box = { <span class="hljs-attr">width</span>: $(tmp).width(), <span class="hljs-attr">height</span>: $(tmp).height() };
+
+        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">isNaN</span>(lineheight)) {
+          <span class="hljs-built_in">console</span>.error(<span class="hljs-string">"Line height is not a number. "</span> +
+          <span class="hljs-string">"Please set a numeric line-height CSS style. "</span> +
+          <span class="hljs-string">"Otherwise it can cause corrupt annotations on line breaks."</span>);
+        }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>Some conditions…</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">var</span> voidBox = box.width == <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">var</span> foundLineBreak = box.height &gt; (<span class="hljs-number">1.5</span> * lineheight);
+        <span class="hljs-keyword">var</span> foundSingleCharWithHypen = middleNode.length == <span class="hljs-number">1</span> &amp;&amp; foundLineBreak;
+
+        <span class="hljs-keyword">if</span> (foundSingleCharWithHypen) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>It’s one char, which is assigned to two lines.
+This means that the browser has appended a hyphen to this single char (to the <code>middleNode</code>)!</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          position.top += lineheight;
+          box.height -= lineheight;
+
+          <span class="hljs-keyword">var</span> forMeasure = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">"span"</span>);
+          forMeasure.innerHTML = middleNode.textContent;
+          containerNode.append(forMeasure);
+          box.width = $(forMeasure).width();
+          $(forMeasure).remove();
+
+          createAnnotation(containerNode, position, box, color, layer, textPos);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>Reset text-state for further annotations.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          $(textNode).text(innerTextNodeCopy);
+
+          <span class="hljs-keyword">return</span> {
+            <span class="hljs-string">"containerNode"</span>: containerNode,
+            <span class="hljs-string">"position"</span>: position,
+            <span class="hljs-string">"box"</span>: box,
+            <span class="hljs-string">"color"</span>: color,
+            <span class="hljs-string">"model"</span>: textPos
+          };
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (voidBox) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>Note: This case arose from some <a href="http://getbootstrap.com/">Bootstrap</a> CSS rules…
+No successful annotation possible, so reset text-state.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          $(textNode).text(innerTextNodeCopy);
+          <span class="hljs-keyword">return</span> {};
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (foundLineBreak) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p>No successful annotation possible, reset text-state.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          $(textNode).text(innerTextNodeCopy);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>Divide the problem.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          <span class="hljs-keyword">var</span> left = {<span class="hljs-attr">begin</span>: begin, <span class="hljs-attr">end</span>: begin + <span class="hljs-built_in">Math</span>.ceil(delta / <span class="hljs-number">2</span>)};
+          <span class="hljs-keyword">var</span> right = {<span class="hljs-attr">begin</span>: begin + <span class="hljs-built_in">Math</span>.ceil(delta / <span class="hljs-number">2</span>), <span class="hljs-attr">end</span>: end};</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>Split the annotation at the line break into litte peaces and call again the algorithm.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          iannotate(left, containerNode, textNode, color, layer);
+          iannotate(right, containerNode, textNode, color, layer);
+        } <span class="hljs-keyword">else</span> {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <p>Simply create a normal annotation.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          createAnnotation(containerNode, position, box, color, layer, textPos);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <p>Reset text-state for further annotations.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          $(textNode).text(innerTextNodeCopy);
+
+          <span class="hljs-keyword">return</span> {
+            <span class="hljs-string">"containerNode"</span>: containerNode,
+            <span class="hljs-string">"position"</span>: position,
+            <span class="hljs-string">"box"</span>: box,
+            <span class="hljs-string">"color"</span>: color,
+            <span class="hljs-string">"model"</span>: textPos
+          };
+        }
+      }
+
+      <span class="hljs-keyword">return</span> annotationInfos;
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-20">&#182;</a>
+              </div>
+              <p>This function creates a hovering annotation box.
+The annotation can be colored and assigned to a annotation layer.
+To identify all annotations use for example <code>$(&quot;.annotated&quot;)</code> or
+if you want only annotations in a certain layer use for example <code>$(&quot;.annotation-layer-LAYERNAME&quot;)</code>.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createAnnotation</span>(<span class="hljs-params">containerNode, position, box, color, layer, model</span>) </span>{
+      <span class="hljs-keyword">var</span> annot = $(<span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">"div"</span>));
+      annot.addClass(<span class="hljs-string">"annotated"</span>);
+      annot.attr(<span class="hljs-string">"data-toggle"</span>, <span class="hljs-string">"popover"</span>);
+      annot.attr(<span class="hljs-string">"data-placement"</span>, <span class="hljs-string">"top"</span>);
+      annot.attr(<span class="hljs-string">"data-html"</span>, <span class="hljs-string">"true"</span>);
+      annot.attr(<span class="hljs-string">"data-content"</span>, <span class="hljs-string">"&lt;a href='/§:"</span> + model.ref + <span class="hljs-string">"'&gt;"</span> + model.ref + <span class="hljs-string">"&lt;/a&gt;"</span>);
+      annot.attr(<span class="hljs-string">"data-trigger"</span>, <span class="hljs-string">"focus"</span>);  <span class="hljs-comment">// needed for dismiss-on-next-click</span>
+      annot.attr(<span class="hljs-string">"role"</span>, <span class="hljs-string">"button"</span>); <span class="hljs-comment">// needed for dismiss-on-next-click</span>
+      annot.attr(<span class="hljs-string">"tabindex"</span>, <span class="hljs-string">"0"</span>); <span class="hljs-comment">// needed for dismiss-on-next-click</span>
+      <span class="hljs-keyword">if</span> (layer)
+        annot.addClass(<span class="hljs-string">"annotation-layer-"</span> + layer);
+      annot.css( <span class="hljs-string">"width"</span>, box.width );
+      annot.css( <span class="hljs-string">"height"</span>, <span class="hljs-string">"0.3em"</span> );
+      annot.css( <span class="hljs-string">"left"</span>, position.left );
+      annot.css( <span class="hljs-string">"top"</span>, position.top + box.height - <span class="hljs-number">3</span> );
+      <span class="hljs-keyword">if</span> (color)
+        annot.css( <span class="hljs-string">"background-color"</span>, color);
+      containerNode.prepend(annot);
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-21">&#182;</a>
+              </div>
+              <p>Expose the entry function.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">return</span> annotate;
+
+});</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

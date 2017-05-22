@@ -1,0 +1,30 @@
+{
+  "name": "annodom",
+  "version": "1.0.0",
+  "homepage": "https://github.com/themerius/annodom",
+  "authors": [
+    "Sven Hodapp"
+  ],
+  "description": "",
+  "main": "js/main.js",
+  "moduleType": [
+    "amd",
+    "globals"
+  ],
+  "private": false,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor",
+    "lib",
+    "test",
+    "tests",
+    "docs"
+  ],
+  "dependencies": {
+    "requirejs": "~2.1.11",
+    "jquery": "~2.1.0",
+    "bootstrap": "^3.3.7"
+  }
+}

@@ -1,0 +1,36 @@
+body {
+  /* Important: AnnoDom relies on a *numeric* line-height, to calculate correct annotations also on line breaks. */
+  line-height: 1.5;
+}
+
+.annotated {
+  background-color: yellow;
+  position: absolute;
+  display: inline;
+  /* only elements in the front are clickable! */
+  /*z-index: -1;*/
+}
+
+.annotated-container {
+  position: relative;
+}
+
+/* this is bootstrap specific */
+.popover-content {
+  /* Preventing Overflow for URIs */
+  /* These are technically the same, but use both */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  -ms-word-break: break-all;
+  /* This is the dangerous one in WebKit, as it breaks things wherever */
+  word-break: break-all;
+  /* Instead use this non-standard one: */
+  word-break: break-word;
+
+  /* Adds a hyphen where the word breaks, if supported (No Blink) */
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
