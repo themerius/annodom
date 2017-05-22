@@ -22,3 +22,7 @@ Browse the documentation:
 
     ./docs/main.html
 
+## Similar work
+
+ * [Annotator](http://annotatorjs.org/)
+ * [Annotorious](https://annotorious.github.io/)
