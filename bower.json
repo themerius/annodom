@@ -1,11 +1,15 @@
 {
   "name": "annodom",
-  "version": "1.0.0",
+  "description": "Create hovering annotation tags on text. Especially useful to show named entities.",
   "homepage": "https://github.com/themerius/annodom",
   "authors": [
     "Sven Hodapp"
   ],
-  "description": "",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/themerius/annodom.git"
+  },
   "main": "js/main.js",
   "moduleType": [
     "amd",
@@ -23,8 +27,8 @@
     "docs"
   ],
   "dependencies": {
-    "requirejs": "~2.1.11",
-    "jquery": "~2.1.0",
-    "bootstrap": "^3.3.7"
+    "requirejs": "~2.x",
+    "jquery": "2.1.x - 3.x",
+    "bootstrap": "^3.x"
   }
 }
