@@ -9,7 +9,7 @@ Create hovering annotation tags on text. Especially useful to show named entitie
 
 You can load the dependencies with [bower](https://bower.io/).
 
-    bower install
+    bower install --force
 
 ## Generate docs
 
