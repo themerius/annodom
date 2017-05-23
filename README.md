@@ -11,7 +11,7 @@ To install AnnoDom with [bower](https://bower.io/):
 
     bower install annodom
 
-AnnoDom is also available as [WebJar](http://www.webjars.org/). Browse artifacts on [Bintray](https://bintray.com/webjars/maven/org.webjars.bower:annodom). sHere is the [SBT](http://www.scala-sbt.org/) dependency:
+AnnoDom is also available as [WebJar](http://www.webjars.org/). Browse artifacts on [Bintray](https://bintray.com/webjars/maven/org.webjars.bower:annodom). Here is the [SBT](http://www.scala-sbt.org/) dependency:
 
     "org.webjars.bower" % "annodom" % "1.0.0"
 
